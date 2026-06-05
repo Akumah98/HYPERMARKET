@@ -1,0 +1,240 @@
+{
+  "categories": [
+    {
+      "name": "Local Produce",
+      "description": "Fresh fruits, vegetables, and herbs sourced from local Cameroonian farms",
+      "image": ""
+    },
+    {
+      "name": "Pantry Essentials",
+      "description": "Cooking oils, flour, rice, spices, and everyday kitchen staples",
+      "image": ""
+    },
+    {
+      "name": "Beverages",
+      "description": "Juices, soft drinks, water, and traditional Cameroonian drinks",
+      "image": ""
+    },
+    {
+      "name": "Dairy & Eggs",
+      "description": "Fresh milk, yogurt, cheese, butter, and farm eggs",
+      "image": ""
+    },
+    {
+      "name": "Meat & Seafood",
+      "description": "Fresh cuts of beef, chicken, fish, and smoked meats",
+      "image": ""
+    },
+    {
+      "name": "Snacks & Treats",
+      "description": "Biscuits, chocolates, chips, and local treats",
+      "image": ""
+    },
+    {
+      "name": "Baby & Kids",
+      "description": "Baby food, diapers, formula, and children's essentials",
+      "image": ""
+    },
+    {
+      "name": "Household",
+      "description": "Cleaning supplies, detergent, toiletries, and home essentials",
+      "image": ""
+    }
+  ],
+  "products": [
+    {
+      "name": "Premium Jasmine Rice 5kg",
+      "description": "Experience the finest quality with our Premium Jasmine Rice. Carefully harvested to ensure long, slender grains that cook up incredibly fluffy and aromatic. Perfect for complementing rich stews, savory curries, or simply enjoyed on its own. Packaged securely to lock in freshness.",
+      "price": 7500,
+      "compareAtPrice": 8200,
+      "categoryName": "Pantry Essentials",
+      "stock": 150,
+      "unit": "bag",
+      "weight": "5kg",
+      "tags": ["rice", "jasmine", "premium", "grain"],
+      "badges": ["100% Natural", "Next Day Delivery"],
+      "averageRating": 4.8,
+      "reviewCount": 214
+    },
+    {
+      "name": "Fresh Plantains Bundle",
+      "description": "Hand-picked ripe plantains perfect for frying, boiling, or roasting. Sourced daily from farms in the Littoral region. Each bundle contains 6-8 plantains.",
+      "price": 2500,
+      "compareAtPrice": 0,
+      "categoryName": "Local Produce",
+      "stock": 80,
+      "unit": "bundle",
+      "weight": "2kg approx",
+      "tags": ["plantain", "fruit", "local", "fresh"],
+      "badges": ["Farm Fresh", "Same Day Delivery"],
+      "averageRating": 4.6,
+      "reviewCount": 89
+    },
+    {
+      "name": "Premium Palm Oil 1L",
+      "description": "Pure, unrefined red palm oil from the South-West region. Rich in vitamins A and E. Perfect for traditional Cameroonian dishes like Ndolé and Eru.",
+      "price": 3000,
+      "compareAtPrice": 3500,
+      "categoryName": "Pantry Essentials",
+      "stock": 200,
+      "unit": "L",
+      "weight": "1L",
+      "tags": ["palm oil", "cooking oil", "traditional", "unrefined"],
+      "badges": ["100% Natural", "Local Producer"],
+      "averageRating": 4.9,
+      "reviewCount": 312
+    },
+    {
+      "name": "Cassava Flour 2kg",
+      "description": "Finely ground cassava flour ideal for making waterfufu, bobolo, and other traditional dishes. Sun-dried and stone-ground for authentic taste.",
+      "price": 1800,
+      "compareAtPrice": 0,
+      "categoryName": "Pantry Essentials",
+      "stock": 2,
+      "unit": "bag",
+      "weight": "2kg",
+      "tags": ["cassava", "flour", "traditional", "gluten-free"],
+      "badges": ["Gluten Free"],
+      "averageRating": 4.3,
+      "reviewCount": 56
+    },
+    {
+      "name": "Fresh Ndolé Leaves 500g",
+      "description": "Pre-washed and chopped ndolé (bitterleaf) ready for cooking. Saves you hours of preparation. Vacuum-sealed for freshness.",
+      "price": 1500,
+      "compareAtPrice": 1800,
+      "categoryName": "Local Produce",
+      "stock": 45,
+      "unit": "pack",
+      "weight": "500g",
+      "tags": ["ndole", "vegetables", "traditional", "ready-to-cook"],
+      "badges": ["Ready to Cook", "Vacuum Sealed"],
+      "averageRating": 4.7,
+      "reviewCount": 128
+    },
+    {
+      "name": "Cameroon Pepper Sauce 250mL",
+      "description": "Authentic Cameroonian hot pepper sauce made from fresh scotch bonnet peppers, onions, and spices. Medium-hot heat level.",
+      "price": 1200,
+      "compareAtPrice": 0,
+      "categoryName": "Pantry Essentials",
+      "stock": 120,
+      "unit": "mL",
+      "weight": "250mL",
+      "tags": ["pepper", "sauce", "spicy", "condiment"],
+      "badges": ["Handmade", "No Preservatives"],
+      "averageRating": 4.5,
+      "reviewCount": 67
+    },
+    {
+      "name": "Farm Fresh Eggs (Crate of 30)",
+      "description": "Free-range eggs from local farms in the West region. Large size, rich yolks, perfect for breakfast or baking.",
+      "price": 3500,
+      "compareAtPrice": 4000,
+      "categoryName": "Dairy & Eggs",
+      "stock": 60,
+      "unit": "pack",
+      "weight": "30 eggs",
+      "tags": ["eggs", "free-range", "farm", "breakfast"],
+      "badges": ["Free Range", "Farm Fresh"],
+      "averageRating": 4.8,
+      "reviewCount": 198
+    },
+    {
+      "name": "Smoked Catfish (Large)",
+      "description": "Traditionally smoked catfish from Douala fish markets. Perfect for pepper soup, okra soup, and other traditional dishes.",
+      "price": 4500,
+      "compareAtPrice": 5000,
+      "categoryName": "Meat & Seafood",
+      "stock": 30,
+      "unit": "piece",
+      "weight": "800g approx",
+      "tags": ["fish", "catfish", "smoked", "protein"],
+      "badges": ["Traditionally Smoked"],
+      "averageRating": 4.4,
+      "reviewCount": 73
+    },
+    {
+      "name": "Top Pamplemousse Juice 1L",
+      "description": "Refreshing grapefruit juice made from locally sourced citrus. No added sugar, 100% natural. Served chilled for the best taste.",
+      "price": 800,
+      "compareAtPrice": 0,
+      "categoryName": "Beverages",
+      "stock": 300,
+      "unit": "L",
+      "weight": "1L",
+      "tags": ["juice", "grapefruit", "natural", "no-sugar"],
+      "badges": ["No Added Sugar", "100% Natural"],
+      "averageRating": 4.2,
+      "reviewCount": 45
+    },
+    {
+      "name": "Baby Cerelac Wheat 400g",
+      "description": "Nestlé Cerelac wheat-based baby cereal fortified with iron and vitamins. Suitable for babies from 6 months.",
+      "price": 3200,
+      "compareAtPrice": 0,
+      "categoryName": "Baby & Kids",
+      "stock": 85,
+      "unit": "pack",
+      "weight": "400g",
+      "tags": ["baby food", "cereal", "nestle", "infant"],
+      "badges": ["Fortified", "6+ Months"],
+      "averageRating": 4.6,
+      "reviewCount": 156
+    },
+    {
+      "name": "Maggi Cube Seasoning (100 pack)",
+      "description": "The essential Cameroonian kitchen staple. Maggi seasoning cubes for soups, stews, and everyday cooking.",
+      "price": 2000,
+      "compareAtPrice": 0,
+      "categoryName": "Pantry Essentials",
+      "stock": 500,
+      "unit": "pack",
+      "weight": "100 cubes",
+      "tags": ["seasoning", "maggi", "spice", "cooking"],
+      "badges": ["Bulk Value"],
+      "averageRating": 4.9,
+      "reviewCount": 420
+    },
+    {
+      "name": "Omo Detergent Powder 1kg",
+      "description": "Powerful cleaning detergent for machine and hand washing. Removes tough stains and leaves clothes fresh.",
+      "price": 2800,
+      "compareAtPrice": 3200,
+      "categoryName": "Household",
+      "stock": 180,
+      "unit": "bag",
+      "weight": "1kg",
+      "tags": ["detergent", "cleaning", "laundry", "household"],
+      "badges": ["Best Seller"],
+      "averageRating": 4.3,
+      "reviewCount": 89
+    }
+  ],
+  "reviews": [
+    {
+      "productName": "Premium Jasmine Rice 5kg",
+      "userName": "jean@test.com",
+      "rating": 5,
+      "comment": "Absolutely love this rice. It has a beautiful aroma while cooking and doesn't stick together. Great value for the 5kg bag."
+    },
+    {
+      "productName": "Premium Jasmine Rice 5kg",
+      "userName": "mami@test.com",
+      "rating": 4,
+      "comment": "Good quality, delivery was fast as usual. Slightly more expensive than local brands but the taste difference is noticeable."
+    },
+    {
+      "productName": "Premium Palm Oil 1L",
+      "userName": "jean@test.com",
+      "rating": 5,
+      "comment": "Best palm oil I've found in Douala. The color and taste are perfect for my Ndolé."
+    },
+    {
+      "productName": "Fresh Plantains Bundle",
+      "userName": "jean@test.com",
+      "rating": 5,
+      "comment": "Always fresh and perfectly ripe. My go-to for plantain every week."
+    }
+  ]
+}
