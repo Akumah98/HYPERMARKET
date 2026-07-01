@@ -1,6 +1,8 @@
 'use strict';
 
-const eventBus = require('../../config/eventBus');
+const path = require('path');
+const eventBus = require(path.join(__dirname, '../config/eventBus'));
+
 
 /**
  * Subscriber: PRODUCT CREATED

@@ -1,7 +1,9 @@
 'use strict';
 
-const eventBus = require('../../config/eventBus');
-const Cart = require('../cart/cart.model');
+const path = require('path');
+const eventBus = require(path.join(__dirname, '../config/eventBus'));
+const Cart = require(path.join(__dirname, '../cart/cart.model'));
+
 
 /**
  * Subscriber: USER REGISTERED

@@ -1,7 +1,8 @@
 'use strict';
 
-const eventBus = require('../../config/eventBus');
-const { sendPush } = require('../notification/notification.service');
+const path = require('path');
+const eventBus = require(path.join(__dirname, '../config/eventBus'));
+const { sendPush } = require(path.join(__dirname, '../notification/notification.service'));
 
 /**
  * Subscriber: ORDER PLACED
