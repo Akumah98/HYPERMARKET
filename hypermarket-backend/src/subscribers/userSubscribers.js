@@ -2,7 +2,7 @@
 
 const path = require('path');
 const eventBus = require(path.join(__dirname, '../config/eventBus'));
-const Cart = require(path.join(__dirname, '../cart/cart.model'));
+const Cart = require(path.join(__dirname, '../features/cart/cart.model'));
 
 
 /**

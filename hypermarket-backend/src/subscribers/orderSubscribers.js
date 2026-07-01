@@ -2,7 +2,7 @@
 
 const path = require('path');
 const eventBus = require(path.join(__dirname, '../config/eventBus'));
-const { sendPush } = require(path.join(__dirname, '../notification/notification.service'));
+const { sendPush } = require(path.join(__dirname, '../features/notification/notification.service'));
 
 /**
  * Subscriber: ORDER PLACED
