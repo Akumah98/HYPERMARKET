@@ -13,7 +13,7 @@ const create = async (req, res, next) => {
 const update = async (req, res, next) => {
   try {
     const product = await writeService.updateProduct(
-      req.params.id, req.body, req.user.id
+      req.params.id, req.body, req.user
     );
     success(res, product);
   } catch (error) {
@@ -23,7 +23,7 @@ const update = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   try {
-    await writeService.deleteProduct(req.params.id, req.user.id);
+    await writeService.deleteProduct(req.params.id, req.user);
     success(res, { message: 'Product deleted' });
   } catch (error) {
     next(error);
@@ -34,7 +34,7 @@ const uploadImages = async (req, res, next) => {
   try {
     const imageUrls = req.files.map((file) => file.path);
     const product = await writeService.addProductImages(
-      req.params.id, imageUrls, req.user.id
+      req.params.id, imageUrls, req.user
     );
     success(res, product);
   } catch (error) {

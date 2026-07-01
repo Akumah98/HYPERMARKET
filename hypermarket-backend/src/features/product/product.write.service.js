@@ -9,12 +9,12 @@ const createProduct = async (data, vendorId) => {
   ]);
 };
 
-const updateProduct = async (id, data, vendorId) => {
+const updateProduct = async (id, data, user) => {
   const product = await Product.findById(id);
 
   if (!product) throw new AppError('Product not found', 404);
 
-  if (product.vendor.toString() !== vendorId) {
+  if (user.role !== 'admin' && product.vendor.toString() !== user.id) {
     throw new AppError('You can only update your own products', 403);
   }
 
@@ -27,12 +27,12 @@ const updateProduct = async (id, data, vendorId) => {
   ]);
 };
 
-const deleteProduct = async (id, vendorId) => {
+const deleteProduct = async (id, user) => {
   const product = await Product.findById(id);
 
   if (!product) throw new AppError('Product not found', 404);
 
-  if (product.vendor.toString() !== vendorId) {
+  if (user.role !== 'admin' && product.vendor.toString() !== user.id) {
     throw new AppError('You can only delete your own products', 403);
   }
 
@@ -40,12 +40,12 @@ const deleteProduct = async (id, vendorId) => {
   return product;
 };
 
-const addProductImages = async (id, imageUrls, vendorId) => {
+const addProductImages = async (id, imageUrls, user) => {
   const product = await Product.findById(id);
 
   if (!product) throw new AppError('Product not found', 404);
 
-  if (product.vendor.toString() !== vendorId) {
+  if (user.role !== 'admin' && product.vendor.toString() !== user.id) {
     throw new AppError('You can only update your own products', 403);
   }
 
