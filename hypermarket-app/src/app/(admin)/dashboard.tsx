@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuthStore } from '../../store/authStore';
 import { useAdminDashboard } from '../../features/admin/hooks/useAdminDashboard';
@@ -22,14 +23,14 @@ export default function AdminDashboard() {
 
   if (loading && !refreshing) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.background }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.background }} edges={['top', 'left', 'right']}>
         <ActivityIndicator size="large" color={theme.primary} />
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]} edges={['top', 'left', 'right']}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <Text style={{ fontSize: 22, fontWeight: '700', color: theme.text }}>Admin Panel</Text>
         <TouchableOpacity onPress={handleLogout}>
@@ -56,6 +57,6 @@ export default function AdminDashboard() {
           </View>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }

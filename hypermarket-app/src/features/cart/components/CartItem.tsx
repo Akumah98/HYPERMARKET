@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../../context/ThemeContext';
 import { getStyles } from '../styles/cartStyles';
@@ -27,7 +28,7 @@ export const CartItem = ({
 
   return (
     <View style={styles.card}>
-      <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
+      <Image source={{ uri: imageUrl }} style={styles.image} contentFit="cover" transition={200} />
 
       <View style={styles.details}>
         <Text style={styles.name} numberOfLines={1}>

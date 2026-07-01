@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, RefreshControl, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../context/ThemeContext';
 import { useVendorOrders } from '../../features/vendor/hooks/useVendorOrders';
 import { VendorOrderCard } from '../../features/vendor/components/VendorOrderCard';
@@ -20,29 +21,31 @@ export default function VendorOrders() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background, flex: 1 }]} edges={['top', 'left', 'right']}>
       <Text style={{ fontSize: 22, fontWeight: '700', color: theme.text, marginBottom: 16 }}>
         Customer Orders
       </Text>
 
-      <View style={{ height: 42, marginBottom: 12 }}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+      <View style={styles.filterBar}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterContent}>
           {FILTERS.map((filter) => (
             <TouchableOpacity
               key={filter}
               onPress={() => setStatusFilter(filter)}
+              activeOpacity={0.8}
               style={[
                 styles.filterBtn,
                 {
                   borderColor: theme.border,
-                  backgroundColor: statusFilter === filter ? theme.primary : theme.surface,
+                  backgroundColor: theme.surface,
                 },
+                statusFilter === filter && { backgroundColor: theme.primary, borderColor: theme.primary },
               ]}
             >
               <Text
                 style={[
                   styles.filterText,
-                  { color: statusFilter === filter ? '#FFFFFF' : theme.textMuted },
+                  { color: statusFilter === filter ? '#003909' : theme.text },
                 ]}
               >
                 {filter.toUpperCase()}
@@ -57,6 +60,7 @@ export default function VendorOrders() {
       <FlatList
         data={orders}
         keyExtractor={(item) => item._id}
+        showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} colors={[theme.primary]} />}
         renderItem={({ item }) => (
           <VendorOrderCard order={item} onUpdateStatus={updateStatus} />
@@ -67,6 +71,6 @@ export default function VendorOrders() {
           </View>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }

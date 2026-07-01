@@ -27,10 +27,14 @@ const updateProduct = async (id, data, user) => {
   Object.assign(product, data);
   await product.save();
 
-  return product.populate([
+  const populated = await product.populate([
     { path: 'category', select: 'name slug' },
     { path: 'vendor', select: 'name' },
   ]);
+
+  eventBus.emit('product.updated', populated);
+
+  return populated;
 };
 
 const deleteProduct = async (id, user) => {
@@ -60,7 +64,9 @@ const addProductImages = async (id, imageUrls, user) => {
   }
 
   product.images.push(...imageUrls);
-  return product.save();
+  const saved = await product.save();
+  eventBus.emit('product.updated', saved);
+  return saved;
 };
 
 const getVendorProducts = async (vendorId) => {

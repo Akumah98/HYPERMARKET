@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, RefreshControl, Alert, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuthStore } from '../../store/authStore';
 import { useVendorDashboard } from '../../features/vendor/hooks/useVendorDashboard';
@@ -36,7 +37,7 @@ export default function VendorDashboard() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background, flex: 1 }]} edges={['top', 'left', 'right']}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <Text style={{ fontSize: 22, fontWeight: '700', color: theme.text }}>Vendor Center</Text>
         <TouchableOpacity onPress={handleLogout}>
@@ -49,6 +50,7 @@ export default function VendorDashboard() {
       <FlatList
         data={products}
         keyExtractor={(item) => item._id}
+        showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} colors={[theme.primary]} />}
         ListHeaderComponent={
           <>
@@ -73,6 +75,6 @@ export default function VendorDashboard() {
           />
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 }

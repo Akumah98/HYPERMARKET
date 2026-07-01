@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTheme } from '../../context/ThemeContext';
 import { useCategories } from '../../features/catalog/hooks/useCategories';
@@ -34,7 +35,7 @@ export default function AddProduct() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background, flex: 1 }]} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <Ionicons name="arrow-back" size={24} color={theme.text} />
@@ -45,7 +46,7 @@ export default function AddProduct() {
 
       {form.error && <Text style={[styles.error, { color: theme.error }]}>{form.error}</Text>}
 
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 24 }}>
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 48 }}>
         <ImageUploader
           images={form.images}
           onPickImage={form.pickImage}
@@ -61,7 +62,7 @@ export default function AddProduct() {
         style={{ backgroundColor: theme.primary }}
         textStyle={{ color: '#FFFFFF' }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

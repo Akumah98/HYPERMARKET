@@ -98,18 +98,23 @@ export const vendorStyles = StyleSheet.create({
     fontWeight: '700',
   },
   filterBar: {
-    flexDirection: 'row',
+    height: 48,
     marginBottom: verticalScale(12),
+  },
+  filterContent: {
     gap: scale(8),
+    alignItems: 'center',
   },
   filterBtn: {
-    paddingHorizontal: scale(12),
-    paddingVertical: verticalScale(6),
-    borderRadius: scale(20),
+    paddingHorizontal: scale(14),
+    height: 38,
+    borderRadius: moderateScale(12),
     borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   filterText: {
-    fontSize: moderateScale(12),
+    fontSize: moderateScale(13),
     fontWeight: '600',
   },
 });

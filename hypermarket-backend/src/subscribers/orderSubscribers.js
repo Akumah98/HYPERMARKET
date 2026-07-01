@@ -3,6 +3,7 @@
 const path = require('path');
 const eventBus = require(path.join(__dirname, '../config/eventBus'));
 const { sendPush } = require(path.join(__dirname, '../features/notification/notification.service'));
+const cache = require(path.join(__dirname, '../utils/cache'));
 
 /**
  * Subscriber: ORDER PLACED
@@ -13,6 +14,7 @@ const { sendPush } = require(path.join(__dirname, '../features/notification/noti
 eventBus.on('order.placed', async (order) => {
   try {
     console.log(`[EVENT] order.placed => ${order.orderId}`);
+    await cache.invalidatePattern('products:*');
     await sendPush(
       order.user,
       'Order Placed 🛒',

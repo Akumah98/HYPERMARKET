@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../../context/ThemeContext';
 import { getStyles } from '../styles/productCardStyles';
@@ -29,7 +30,8 @@ export const ProductCard = ({ product, onPress, onAddToCart }: ProductCardProps)
         <Image
           source={{ uri: imageUrl }}
           style={styles.productImage}
-          resizeMode="cover"
+          contentFit="cover"
+          transition={200}
         />
       </View>
 

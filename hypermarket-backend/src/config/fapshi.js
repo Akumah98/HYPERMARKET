@@ -81,6 +81,40 @@ module.exports = {
       });
     });
   },
+  /**
+   * Simulates Fapshi refund.
+   * Looks up the in-memory store and updates status to REFUNDED.
+   */
+  refund(transId, amount) {
+    return new Promise((resolve) => {
+      if (!transId || typeof transId !== 'string') {
+        return resolve(error('invalid type, string expected', 400));
+      }
+
+      const transaction = transactions.get(transId);
+      if (!transaction) {
+        return resolve(error('transaction not found', 404));
+      }
+
+      if (transaction.status !== 'SUCCESSFUL') {
+        return resolve(error('transaction must be SUCCESSFUL to be refunded', 400));
+      }
+
+      if (amount > transaction.amount) {
+        return resolve(error('refund amount cannot exceed original amount', 400));
+      }
+
+      transaction.status = 'REFUNDED';
+      console.log(`[FAPSHI SIM] Refund successful: ${transId} | ${amount} XAF`);
+
+      resolve({
+        transId,
+        status: 'REFUNDED',
+        refundAmount: amount,
+        statusCode: 200,
+      });
+    });
+  },
 };
 
 function error(message, statusCode) {

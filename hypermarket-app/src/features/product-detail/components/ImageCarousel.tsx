@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, ScrollView, Image, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { View, ScrollView, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { Image } from 'expo-image';
 import { useTheme } from '../../../context/ThemeContext';
 import { getStyles } from '../styles/productDetailStyles';
 import { scale } from '../../../utils/responsive';
@@ -35,7 +36,8 @@ export const ImageCarousel = ({ images }: ImageCarouselProps) => {
             key={img.publicId || i}
             source={{ uri: img.url }}
             style={styles.carouselImage}
-            resizeMode="cover"
+            contentFit="cover"
+            transition={200}
           />
         ))}
       </ScrollView>

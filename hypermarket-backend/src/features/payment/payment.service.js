@@ -70,7 +70,24 @@ const verifyPayment = async (transId) => {
   return result;
 };
 
+const refundPayment = async (transId, amount) => {
+  // We use the fapshi simulator to do the refund
+  const result = await fapshi.refund(transId, amount);
+  if (result.statusCode !== 200) {
+    throw new AppError(result.message || 'Refund initiation failed', result.statusCode || 400);
+  }
+
+  const order = await Order.findOne({ transactionRef: transId });
+  if (order) {
+    order.paymentStatus = 'refunded';
+    await order.save();
+  }
+
+  return result;
+};
+
 module.exports = {
   initiatePayment,
   verifyPayment,
+  refundPayment,
 };

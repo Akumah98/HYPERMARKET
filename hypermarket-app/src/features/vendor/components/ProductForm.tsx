@@ -22,7 +22,7 @@ export function ProductForm({
   const theme = useTheme();
 
   return (
-    <ScrollView style={styles.form} contentContainerStyle={{ paddingBottom: 24 }}>
+    <View style={styles.form}>
       <Text style={[styles.label, { color: theme.text }]}>Product Name</Text>
       <TextInput
         value={name}
@@ -96,7 +96,7 @@ export function ProductForm({
           />
         ))}
       </ScrollView>
-    </ScrollView>
+    </View>
   );
 }
 

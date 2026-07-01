@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, FlatList, RefreshControl, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../context/ThemeContext';
 import { useAdminUsers } from '../../features/admin/hooks/useAdminUsers';
 import { UserCard } from '../../features/admin/components/UserList';
@@ -14,14 +15,14 @@ export default function AdminUsers() {
 
   if (loading && !refreshing) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.background }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.background }} edges={['top', 'left', 'right']}>
         <ActivityIndicator size="large" color={theme.primary} />
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]} edges={['top', 'left', 'right']}>
       <Text style={{ fontSize: 22, fontWeight: '700', color: theme.text, marginBottom: 12 }}>Users Directory</Text>
 
       <TextInput
@@ -41,18 +42,20 @@ export default function AdminUsers() {
         }}
       />
 
-      <View style={{ height: 42, marginBottom: 12 }}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+      <View style={styles.filterBar}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterContent}>
           {FILTERS.map((role) => (
             <TouchableOpacity
               key={role}
               onPress={() => setRoleFilter(role)}
+              activeOpacity={0.8}
               style={[
                 styles.filterBtn,
-                { borderColor: theme.border, backgroundColor: roleFilter === role ? theme.primary : theme.surface },
+                { borderColor: theme.border, backgroundColor: theme.surface },
+                roleFilter === role && { backgroundColor: theme.primary, borderColor: theme.primary },
               ]}
             >
-              <Text style={[styles.filterText, { color: roleFilter === role ? '#FFFFFF' : theme.textMuted }]}>
+              <Text style={[styles.filterText, { color: roleFilter === role ? '#003909' : theme.textMuted }]}>
                 {role.toUpperCase()}
               </Text>
             </TouchableOpacity>
@@ -73,6 +76,6 @@ export default function AdminUsers() {
           </View>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }

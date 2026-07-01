@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
 import { useTheme } from '../../../context/ThemeContext';
 import { Product } from '../../catalog/services/catalogService';
 import { formatXAF } from '../../../utils/formatCurrency';
@@ -18,7 +19,7 @@ export function VendorProductCard({ item, onEdit, onDelete }: VendorProductCardP
   return (
     <View style={[styles.productCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
       {item.images?.[0]?.url ? (
-        <Image source={{ uri: item.images[0].url }} style={{ width: 50, height: 50, borderRadius: 8 }} />
+        <Image source={{ uri: item.images[0].url }} style={{ width: 50, height: 50, borderRadius: 8 }} contentFit="cover" transition={200} />
       ) : (
         <View style={{ width: 50, height: 50, borderRadius: 8, backgroundColor: theme.border, justifyContent: 'center', alignItems: 'center' }}>
           <Ionicons name="image-outline" size={20} color={theme.textMuted} />

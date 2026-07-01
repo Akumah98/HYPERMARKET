@@ -17,7 +17,7 @@ eventBus.on('user.registered', async (user) => {
     console.log(`[EVENT] user.registered => ${user.email} (role: ${user.role})`);
 
     if (user.role === 'customer') {
-      await Cart.create({ user: user._id, items: [] });
+      await Cart.create({ user: user.id || user._id, items: [] });
       console.log(`[EVENT] Cart provisioned for new customer: ${user.email}`);
     }
   } catch (err) {

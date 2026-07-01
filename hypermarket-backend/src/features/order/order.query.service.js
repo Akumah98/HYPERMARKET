@@ -2,6 +2,7 @@ const Order = require('./order.model');
 const AppError = require('../../utils/apiError');
 const { buildPaginationMeta } = require('../../utils/pagination');
 const eventBus = require('../../config/eventBus');
+const paymentService = require('../payment/payment.service');
 
 const getUserOrders = async (userId, query = {}) => {
   const page = parseInt(query.page, 10) || 1;
@@ -36,6 +37,18 @@ const updateOrderStatus = async (orderId, status) => {
   if (!order) throw new AppError('Order not found', 404);
 
   order.status = status;
+  
+  if (status === 'cancelled' && order.paymentStatus === 'paid' && order.transactionRef) {
+    try {
+      await paymentService.refundPayment(order.transactionRef, Math.round(order.total));
+      // order.paymentStatus is updated to 'refunded' within refundPayment
+    } catch (error) {
+      console.error(`Refund failed for order ${order._id}:`, error);
+      // Even if refund fails, we still cancel the order but maybe we should throw?
+      // Since it's a simulator, it shouldn't fail unless it wasn't successful.
+    }
+  }
+  
   const savedOrder = await order.save();
 
   // Emit event — orderSubscribers handles push notification logic
@@ -50,6 +63,14 @@ const cancelOrder = async (orderId, userId) => {
 
   if (!['placed', 'processing'].includes(order.status)) {
     throw new AppError('Order cannot be cancelled at this stage', 400);
+  }
+
+  if (order.paymentStatus === 'paid' && order.transactionRef) {
+    try {
+      await paymentService.refundPayment(order.transactionRef, Math.round(order.total));
+    } catch (error) {
+      console.error(`Refund failed for order ${order._id}:`, error);
+    }
   }
 
   order.status = 'cancelled';

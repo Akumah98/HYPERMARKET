@@ -32,7 +32,7 @@ export function EditProductForm({ product, categories }: EditProductFormProps) {
     <View style={styles.container}>
       {form.error && <Text style={[styles.error, { color: theme.error }]}>{form.error}</Text>}
 
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 24 }}>
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 48 }}>
         <ImageUploader
           images={form.images}
           onPickImage={form.pickImage}
