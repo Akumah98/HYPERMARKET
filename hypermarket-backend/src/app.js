@@ -25,6 +25,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use('/api', apiLimiter);
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ success: true, message: 'Welcome to Hypermarket API' });
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ success: true, data: { status: 'OK', timestamp: new Date() } });
