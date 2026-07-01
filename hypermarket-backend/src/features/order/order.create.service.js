@@ -17,6 +17,12 @@ const createOrder = async (userId, orderData) => {
 
   // Validate stock for each item
   for (const item of cart.items) {
+    if (!item.product) {
+      throw new AppError(
+        'One or more items in your cart are no longer available. Please remove them and try again.',
+        400
+      );
+    }
     if (item.product.stock < item.quantity) {
       throw new AppError(
         `"${item.product.name}" only has ${item.product.stock} left`,

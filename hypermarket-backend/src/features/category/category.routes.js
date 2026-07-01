@@ -8,6 +8,8 @@ const {
   updateCategorySchema,
 } = require('./category.validation');
 
+const { upload, uploadToImageKit } = require('../../config/imagekit');
+
 const router = express.Router();
 
 router.get('/', categoryController.getAll);
@@ -35,6 +37,15 @@ router.delete(
   auth,
   roleCheck('admin'),
   categoryController.remove
+);
+
+router.post(
+  '/:id/image',
+  auth,
+  roleCheck('admin'),
+  upload.single('image'),
+  uploadToImageKit,
+  categoryController.uploadImage
 );
 
 module.exports = router;

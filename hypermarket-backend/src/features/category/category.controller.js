@@ -50,4 +50,19 @@ const remove = async (req, res, next) => {
   }
 };
 
-module.exports = { create, getAll, getBySlug, update, remove };
+const uploadImage = async (req, res, next) => {
+  try {
+    const AppError = require('../../utils/apiError');
+    if (!req.file) {
+      throw new AppError('Please provide an image file', 400);
+    }
+    const category = await categoryService.updateCategory(req.params.id, {
+      image: req.file.path,
+    });
+    success(res, category);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { create, getAll, getBySlug, update, remove, uploadImage };

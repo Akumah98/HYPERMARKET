@@ -9,7 +9,7 @@ const createOrderSchema = Joi.object({
     street: Joi.string().trim().allow('').default(''),
     quarter: Joi.string().trim().allow('').default(''),
     city: Joi.string().trim().required(),
-    region: Joi.string().trim().required(),
+    region: Joi.string().trim().allow('').default('Centre'),
     phone: Joi.string().trim().required(),
   }).required(),
   paymentMethod: Joi.string()

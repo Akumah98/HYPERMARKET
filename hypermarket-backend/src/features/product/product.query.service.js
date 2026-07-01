@@ -13,13 +13,32 @@ const SORT_OPTIONS = {
 const buildFilter = (query) => {
   const filter = { isActive: true };
 
-  if (query.category) filter.category = query.category;
+  if (query.category) {
+    if (query.category.includes(',')) {
+      filter.category = { $in: query.category.split(',') };
+    } else {
+      filter.category = query.category;
+    }
+  }
   if (query.vendor) filter.vendor = query.vendor;
   if (query.search) filter.$text = { $search: query.search };
   if (query.minPrice || query.maxPrice) {
     filter.price = {};
     if (query.minPrice) filter.price.$gte = query.minPrice;
     if (query.maxPrice) filter.price.$lte = query.maxPrice;
+  }
+  if (query.inStock === 'true' || query.inStock === true) {
+    filter.stock = { $gt: 0 };
+  }
+  if (query.rating) {
+    filter.averageRating = { $gte: parseFloat(query.rating) };
+  }
+  if (query.badges) {
+    if (query.badges.includes(',')) {
+      filter.badges = { $in: query.badges.split(',') };
+    } else {
+      filter.badges = query.badges;
+    }
   }
 
   return filter;

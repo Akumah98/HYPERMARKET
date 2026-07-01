@@ -41,6 +41,9 @@ const queryProductSchema = Joi.object({
   sort: Joi.string()
     .valid('price_asc', 'price_desc', 'newest', 'rating', 'name')
     .default('newest'),
+  inStock: Joi.boolean(),
+  rating: Joi.number().min(0).max(5),
+  badges: Joi.string().allow(''),
 });
 
 module.exports = {

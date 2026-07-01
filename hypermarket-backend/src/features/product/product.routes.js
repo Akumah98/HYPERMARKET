@@ -4,7 +4,7 @@ const writeController = require('./product.write.controller');
 const validate = require('../../middleware/validate');
 const auth = require('../../middleware/auth');
 const roleCheck = require('../../middleware/roleCheck');
-const { upload } = require('../../config/cloudinary');
+const { upload, uploadToImageKit } = require('../../config/imagekit');
 const {
   createProductSchema,
   updateProductSchema,
@@ -56,6 +56,7 @@ router.post(
   auth,
   roleCheck('vendor', 'admin'),
   upload.array('images', 5),
+  uploadToImageKit,
   writeController.uploadImages
 );
 

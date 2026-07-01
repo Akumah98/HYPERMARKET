@@ -33,16 +33,33 @@ const req = (method, path, body = null, token = '') => {
 const assert = (c, m) => { if (!c) throw new Error(m); };
 
 const startServers = async () => {
+  const transactions = new Map();
   const fapshiServer = http.createServer((request, response) => {
     response.writeHead(200, { 'Content-Type': 'application/json' });
     if (request.url === '/direct-pay' && request.method === 'POST') {
-      response.end(JSON.stringify({ statusCode: 200, transId: 'mocktrans1' }));
+      let body = '';
+      request.on('data', (c) => (body += c));
+      request.on('end', () => {
+        try {
+          const payload = JSON.parse(body);
+          const transId = 'tx' + Math.random().toString(36).substring(2, 10);
+          transactions.set(transId, {
+            externalId: payload.externalId,
+            amount: payload.amount,
+          });
+          response.end(JSON.stringify({ statusCode: 200, transId }));
+        } catch {
+          response.end(JSON.stringify({ statusCode: 400, message: 'Invalid payload' }));
+        }
+      });
     } else if (request.url.startsWith('/payment-status/') && request.method === 'GET') {
+      const transId = request.url.split('/').pop();
+      const tx = transactions.get(transId) || { externalId: 'mockorder1', amount: 5000 };
       response.end(JSON.stringify({
         statusCode: 200,
         status: 'SUCCESSFUL',
-        externalId: 'mockorder1',
-        amount: 5000,
+        externalId: tx.externalId,
+        amount: tx.amount,
       }));
     } else {
       response.end(JSON.stringify({ statusCode: 404, message: 'Not found' }));
@@ -68,9 +85,11 @@ const startServers = async () => {
 };
 
 const stopServers = async (servers) => {
+  const mongoose = require('mongoose');
   await Promise.all([
     new Promise((r) => servers.fapshiServer.close(r)),
     new Promise((r) => servers.appServer.close(r)),
+    mongoose.connection.close(),
   ]);
 };
 
