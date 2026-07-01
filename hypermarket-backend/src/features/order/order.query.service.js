@@ -1,8 +1,7 @@
 const Order = require('./order.model');
 const AppError = require('../../utils/apiError');
 const { buildPaginationMeta } = require('../../utils/pagination');
-
-const { sendPush } = require('../notification/notification.service');
+const eventBus = require('../../config/eventBus');
 
 const getUserOrders = async (userId, query = {}) => {
   const page = parseInt(query.page, 10) || 1;
@@ -39,27 +38,8 @@ const updateOrderStatus = async (orderId, status) => {
   order.status = status;
   const savedOrder = await order.save();
 
-  // Asynchronously send push notification to user
-  let title = 'Order Update';
-  let body = `Your order status has been updated to ${status}.`;
-
-  if (status === 'processing') {
-    title = 'Order Confirmed 🛒';
-    body = `Your order ${order.orderId} is being prepared by the vendor.`;
-  } else if (status === 'ready') {
-    title = 'Order Ready 📦';
-    body = `Your order ${order.orderId} is ready for ${order.deliveryMethod === 'store_pickup' ? 'pickup' : 'delivery'}.`;
-  } else if (status === 'delivered') {
-    title = 'Order Delivered 🎉';
-    body = `Your order ${order.orderId} has been successfully delivered.`;
-  } else if (status === 'cancelled') {
-    title = 'Order Cancelled ❌';
-    body = `Your order ${order.orderId} has been cancelled.`;
-  }
-
-  sendPush(order.user, title, body, { orderId: order._id.toString(), status }).catch((err) =>
-    console.error('Error triggering order status push:', err.message)
-  );
+  // Emit event — orderSubscribers handles push notification logic
+  eventBus.emit('order.statusChanged', { order: savedOrder, status });
 
   return savedOrder;
 };

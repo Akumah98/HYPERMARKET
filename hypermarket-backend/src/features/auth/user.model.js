@@ -11,6 +11,14 @@ const addressSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const billingSchema = new mongoose.Schema(
+  {
+    paymentMethod: { type: String, enum: ['mtn_momo', 'orange_money', ''], default: '' },
+    phone: { type: String, default: '' },
+  },
+  { _id: false }
+);
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -39,6 +47,7 @@ const userSchema = new mongoose.Schema(
     },
     phone: { type: String, trim: true, default: '' },
     address: { type: addressSchema, default: () => ({}) },
+    billing: { type: billingSchema, default: () => ({}) },
     expoPushToken: { type: String, default: '' },
   },
   { timestamps: true }

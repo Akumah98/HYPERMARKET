@@ -38,7 +38,7 @@ export const OrderCard = ({ order, onPress }: OrderCardProps) => {
         <Text style={styles.itemsCount}>
           {totalItems} {totalItems === 1 ? 'item' : 'items'}
         </Text>
-        <Text style={styles.priceVal}>{formatXAF(order.totalAmount)}</Text>
+        <Text style={styles.priceVal}>{formatXAF(order.total)}</Text>
       </View>
 
       <View style={styles.cardFooter}>

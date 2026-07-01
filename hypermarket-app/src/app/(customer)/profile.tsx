@@ -1,15 +1,41 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '../../context/ThemeContext';
-import { useAuthStore } from '../../store/authStore';
-import { AppButton } from '../../components/AppButton';
-import { scale, verticalScale } from '../../utils/responsive';
+import { ScrollView, SafeAreaView } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useTheme } from '../../context/ThemeContext';
+import { AppButton } from '../../components/AppButton';
+import { getStyles } from '../../features/profile/styles/profileStyles';
+import { useProfile } from '../../features/profile/hooks/useProfile';
+import { ProfileHeader } from '../../features/profile/components/ProfileHeader';
+import { InfoSection } from '../../features/profile/components/InfoSection';
+import { EditProfileModal } from '../../features/profile/components/EditProfileModal';
+import { useAuthStore } from '../../store/authStore';
 
 export default function ProfileScreen() {
   const theme = useTheme();
+  const styles = getStyles(theme);
   const router = useRouter();
-  const { user, logout } = useAuthStore();
+  const { user, modalVisible, setModalVisible, handleSaveProfile } = useProfile();
+  const logout = useAuthStore((state) => state.logout);
+
+  if (!user) return null;
+
+  const personalRows = [
+    { label: 'Name', value: user.name },
+    { label: 'Email', value: user.email },
+    { label: 'Phone', value: user.phone || 'Not set' },
+    { label: 'Role', value: user.role.toUpperCase() },
+  ];
+
+  const addressRows = [
+    { label: 'Street', value: user.address?.street || 'Not set' },
+    { label: 'City', value: user.address?.city || 'Not set' },
+    { label: 'Region', value: user.address?.region || 'Not set' },
+  ];
+
+  const billingRows = [
+    { label: 'Preferred Method', value: user.billing?.paymentMethod === 'mtn_momo' ? 'MTN MoMo' : user.billing?.paymentMethod === 'orange_money' ? 'Orange Money' : 'Not set' },
+    { label: 'Payer Phone', value: user.billing?.phone || 'Not set' },
+  ];
 
   const handleLogout = async () => {
     await logout();
@@ -17,52 +43,17 @@ export default function ProfileScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[styles.title, { color: theme.text }]}>Profile Settings</Text>
-      {user ? (
-        <View style={styles.card}>
-          <Text style={[styles.info, { color: theme.text }]}>Name: {user.name}</Text>
-          <Text style={[styles.info, { color: theme.text }]}>Email: {user.email}</Text>
-          <Text style={[styles.info, { color: theme.text }]}>Role: {user.role.toUpperCase()}</Text>
-        </View>
-      ) : null}
-
-      <AppButton
-        title="Logout"
-        onPress={handleLogout}
-        style={[styles.button, { backgroundColor: theme.error }]}
-        textStyle={{ color: '#FFFFFF' }}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <ProfileHeader name={user.name} email={user.email} />
+        <InfoSection title="Personal Information" rows={personalRows} onEditPress={() => setModalVisible(true)} />
+        <InfoSection title="Delivery Address" rows={addressRows} onEditPress={() => setModalVisible(true)} />
+        <InfoSection title="Billing Information" rows={billingRows} onEditPress={() => setModalVisible(true)} />
+        <AppButton title="Logout" onPress={handleLogout} style={styles.logoutBtn} textStyle={{ color: '#FFFFFF' }} />
+      </ScrollView>
+      {modalVisible && (
+        <EditProfileModal visible={modalVisible} onClose={() => setModalVisible(false)} user={user} onSave={handleSaveProfile} />
+      )}
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: scale(20),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: scale(22),
-    fontWeight: '700',
-    marginBottom: verticalScale(20),
-  },
-  card: {
-    width: '100%',
-    padding: scale(16),
-    borderRadius: scale(12),
-    borderWidth: 1,
-    borderColor: '#333333',
-    marginBottom: verticalScale(30),
-    gap: verticalScale(10),
-  },
-  info: {
-    fontSize: scale(15),
-    fontWeight: '500',
-  },
-  button: {
-    width: '80%',
-  },
-});

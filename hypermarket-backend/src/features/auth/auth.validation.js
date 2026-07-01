@@ -18,4 +18,19 @@ const loginSchema = Joi.object({
     .messages({ 'string.empty': 'Password is required' }),
 });
 
-module.exports = { registerSchema, loginSchema };
+const updateProfileSchema = Joi.object({
+  name: Joi.string().trim().min(2).max(100),
+  phone: Joi.string().trim().allow(''),
+  address: Joi.object({
+    street: Joi.string().trim().allow(''),
+    quarter: Joi.string().trim().allow(''),
+    city: Joi.string().trim().allow(''),
+    region: Joi.string().trim().allow(''),
+  }),
+  billing: Joi.object({
+    paymentMethod: Joi.string().valid('mtn_momo', 'orange_money', '').default(''),
+    phone: Joi.string().trim().allow(''),
+  }),
+});
+
+module.exports = { registerSchema, loginSchema, updateProfileSchema };

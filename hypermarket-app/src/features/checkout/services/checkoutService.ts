@@ -17,7 +17,9 @@ export interface OrderPayload {
 export interface OrderResponse {
   _id: string;
   customer: string;
-  totalAmount: number;
+  subtotal: number;
+  deliveryFee: number;
+  total: number;
   status: 'placed' | 'processing' | 'ready' | 'delivered';
   deliveryMethod: 'home_delivery' | 'store_pickup';
   shipping: ShippingInfo;

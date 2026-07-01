@@ -4,6 +4,7 @@ const Product = require('../product/product.model');
 const AppError = require('../../utils/apiError');
 const { generateOrderId } = require('./order.helpers');
 const { DELIVERY_FEE } = require('../cart/cart.service');
+const eventBus = require('../../config/eventBus');
 
 const createOrder = async (userId, orderData) => {
   const cart = await Cart.findOne({ user: userId }).populate(
@@ -66,6 +67,9 @@ const createOrder = async (userId, orderData) => {
   // Clear the cart
   cart.items = [];
   await cart.save();
+
+  // Emit event — downstream subscribers handle notifications etc.
+  eventBus.emit('order.placed', order);
 
   return order;
 };

@@ -41,7 +41,7 @@ export default function OrderDetailScreen() {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Order Information</Text>
             <Text style={{ color: theme.text }}>Order ID: {orderCode}</Text>
-            <Text style={{ color: theme.text }}>Total Price: {formatXAF(order.totalAmount)}</Text>
+            <Text style={{ color: theme.text }}>Total Price: {formatXAF(order.total)}</Text>
             <Text style={{ color: theme.text }}>
               Fulfillment: {order.deliveryMethod === 'home_delivery' ? 'DELIVERY' : 'STORE PICKUP'}
             </Text>

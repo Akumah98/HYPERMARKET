@@ -1,0 +1,32 @@
+import { StyleSheet } from 'react-native';
+import { scale, verticalScale } from '../../../utils/responsive';
+
+export const getStyles = (theme: any) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: theme.background },
+  scrollContent: { padding: scale(16), paddingBottom: verticalScale(40) },
+  headerCard: { alignItems: 'center', paddingVertical: verticalScale(20), backgroundColor: theme.surface, borderRadius: scale(16), marginBottom: verticalScale(16), borderWidth: 1, borderColor: theme.border },
+  avatar: { width: scale(70), height: scale(70), borderRadius: scale(35), backgroundColor: theme.primary, alignItems: 'center', justifyContent: 'center', marginBottom: verticalScale(12) },
+  avatarText: { fontSize: scale(28), fontWeight: '700', color: '#003909' },
+  profileName: { fontSize: scale(20), fontWeight: '700', color: theme.text, marginBottom: verticalScale(4) },
+  profileEmail: { fontSize: scale(14), color: theme.textMuted },
+  sectionCard: { backgroundColor: theme.surface, borderRadius: scale(16), padding: scale(16), marginBottom: verticalScale(16), borderWidth: 1, borderColor: theme.border },
+  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: verticalScale(12), borderBottomWidth: 1, borderBottomColor: theme.border, paddingBottom: verticalScale(8) },
+  sectionTitle: { fontSize: scale(16), fontWeight: '700', color: theme.primary },
+  editButtonText: { fontSize: scale(13), fontWeight: '600', color: theme.primary },
+  infoRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: verticalScale(6) },
+  infoLabel: { fontSize: scale(14), color: theme.textMuted, fontWeight: '500' },
+  infoVal: { fontSize: scale(14), color: theme.text, fontWeight: '600', maxWidth: '65%', textAlign: 'right' },
+  logoutBtn: { marginTop: verticalScale(8), borderRadius: scale(12) },
+  modalContainer: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+  modalContent: { backgroundColor: theme.background, borderTopLeftRadius: scale(24), borderTopRightRadius: scale(24), padding: scale(20), maxHeight: '90%' },
+  modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: verticalScale(20) },
+  modalTitle: { fontSize: scale(18), fontWeight: '700', color: theme.text },
+  inputGroup: { marginBottom: verticalScale(12) },
+  label: { fontSize: scale(12), fontWeight: '600', color: theme.textMuted, marginBottom: verticalScale(6) },
+  input: { height: verticalScale(44), borderWidth: 1, borderColor: theme.border, borderRadius: scale(8), paddingHorizontal: scale(12), color: theme.text, fontSize: scale(14), backgroundColor: theme.cardBg || '#1e1e1e' },
+  radioRow: { flexDirection: 'row', gap: scale(12) },
+  radioBtn: { flex: 1, height: verticalScale(40), borderWidth: 1, borderColor: theme.border, borderRadius: scale(8), alignItems: 'center', justifyContent: 'center' },
+  radioActive: { borderColor: theme.primary, backgroundColor: 'rgba(74, 222, 128, 0.1)' },
+  radioText: { fontSize: scale(13), fontWeight: '600' },
+  errorText: { color: theme.error, fontSize: scale(12), marginBottom: verticalScale(10), textAlign: 'center' },
+});

@@ -1,12 +1,18 @@
 const Product = require('./product.model');
 const AppError = require('../../utils/apiError');
+const eventBus = require('../../config/eventBus');
 
 const createProduct = async (data, vendorId) => {
   const product = await Product.create({ ...data, vendor: vendorId });
-  return product.populate([
+  const populated = await product.populate([
     { path: 'category', select: 'name slug' },
     { path: 'vendor', select: 'name' },
   ]);
+
+  // Emit event — productSubscribers handles audit logging, search indexing etc.
+  eventBus.emit('product.created', populated);
+
+  return populated;
 };
 
 const updateProduct = async (id, data, user) => {
@@ -37,6 +43,10 @@ const deleteProduct = async (id, user) => {
   }
 
   await Product.findByIdAndDelete(id);
+
+  // Emit event — productSubscribers handles cleanup, search index removal etc.
+  eventBus.emit('product.deleted', product);
+
   return product;
 };
 

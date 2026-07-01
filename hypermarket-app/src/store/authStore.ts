@@ -7,6 +7,16 @@ export interface User {
   email: string;
   role: 'customer' | 'vendor' | 'admin';
   phone?: string;
+  address?: {
+    street?: string;
+    quarter?: string;
+    city?: string;
+    region?: string;
+  };
+  billing?: {
+    paymentMethod?: 'mtn_momo' | 'orange_money' | '';
+    phone?: string;
+  };
 }
 
 interface AuthState {
@@ -17,6 +27,7 @@ interface AuthState {
   login: (user: User, token: string) => Promise<void>;
   logout: () => Promise<void>;
   initialize: () => Promise<void>;
+  updateUser: (user: User) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -51,5 +62,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       console.error('Failed to initialize auth store:', e);
       set({ isInitialized: true });
     }
+  },
+
+  updateUser: async (user) => {
+    await AsyncStorage.setItem('user', JSON.stringify(user));
+    set({ user });
   },
 }));

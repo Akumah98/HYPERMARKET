@@ -33,6 +33,15 @@ const initiatePayment = async (userId, orderId, phone) => {
   order.paymentStatus = 'pending';
   await order.save();
 
+  // Save/update user's preferred billing information
+  const User = require('../auth/user.model');
+  await User.findByIdAndUpdate(userId, {
+    billing: {
+      paymentMethod: order.paymentMethod,
+      phone,
+    }
+  }).catch(() => {});
+
   return { transId: result.transId };
 };
 

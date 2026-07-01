@@ -12,7 +12,9 @@ export interface Order {
   _id: string;
   customer: string;
   items: OrderItem[];
-  totalAmount: number;
+  subtotal: number;
+  deliveryFee: number;
+  total: number;
   status: 'placed' | 'processing' | 'ready' | 'delivered' | 'cancelled';
   fulfillmentType?: 'delivery' | 'pickup';
   deliveryMethod: 'home_delivery' | 'store_pickup';
