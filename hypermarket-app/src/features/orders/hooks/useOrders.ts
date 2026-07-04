@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { orderService, Order } from '../services/orderService';
+import { eventBus } from '../../../utils/eventBus';
 
 export const useOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -23,6 +24,26 @@ export const useOrders = () => {
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
+
+  useEffect(() => {
+    const unsubPlaced = eventBus.on('order.placed', (newOrder) => {
+      setOrders((prev) => {
+        if (prev.some((o) => o._id === newOrder._id)) return prev;
+        return [newOrder, ...prev];
+      });
+    });
+
+    const unsubStatus = eventBus.on('order.statusChanged', ({ orderId, status }) => {
+      setOrders((prev) =>
+        prev.map((o) => (o._id === orderId ? { ...o, status } : o))
+      );
+    });
+
+    return () => {
+      unsubPlaced();
+      unsubStatus();
+    };
+  }, []);
 
   const filteredOrders = useMemo(() => {
     if (!statusFilter) return orders;

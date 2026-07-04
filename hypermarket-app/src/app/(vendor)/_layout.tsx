@@ -45,6 +45,15 @@ export default function VendorLayout() {
         }}
       />
       <Tabs.Screen
+        name="warehouse"
+        options={{
+          title: 'Warehouse',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'cube' : 'cube-outline'} size={20} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="add-product"
         options={{
           href: null,

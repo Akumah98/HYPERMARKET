@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { vendorService, VendorOrder } from '../services/vendorService';
+import { eventBus } from '../../../utils/eventBus';
 
 export function useVendorOrders() {
   const [orders, setOrders] = useState<VendorOrder[]>([]);
@@ -34,6 +35,7 @@ export function useVendorOrders() {
       setOrders((prev) =>
         prev.map((o) => (o._id === orderId ? { ...o, status: updatedOrder.status } : o))
       );
+      eventBus.emit('order.statusChanged', { orderId, status: updatedOrder.status });
     } catch (err: any) {
       throw new Error(err.response?.data?.message || 'Failed to update order status');
     }
@@ -42,6 +44,15 @@ export function useVendorOrders() {
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
+
+  useEffect(() => {
+    return eventBus.on('order.placed', (newOrder) => {
+      setOrders((prev) => {
+        if (prev.some((o) => o._id === newOrder._id)) return prev;
+        return [newOrder, ...prev];
+      });
+    });
+  }, []);
 
   return {
     orders,

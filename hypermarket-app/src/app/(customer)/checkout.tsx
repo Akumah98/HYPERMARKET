@@ -15,6 +15,7 @@ import { OrderSummary } from '../../features/checkout/components/OrderSummary';
 import { checkoutService } from '../../features/checkout/services/checkoutService';
 import { useCartStore } from '../../store/cartStore';
 import { useAuthStore } from '../../store/authStore';
+import { eventBus } from '../../utils/eventBus';
 import { formatXAF } from '../../utils/formatCurrency';
 import { AppButton } from '../../components/AppButton';
 
@@ -40,6 +41,7 @@ export default function CheckoutScreen() {
     }
     const order = await checkout.placeOrder();
     if (!order) return;
+    eventBus.emit('order.placed', order);
     try {
       setModalVisible(true);
       const transId = await checkoutService.initiatePayment(order._id, payerPhone);

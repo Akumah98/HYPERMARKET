@@ -57,13 +57,22 @@ export default function VendorDashboard() {
             {stats && <VendorStats stats={stats} productsCount={products.length} />}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 12 }}>
               <Text style={[styles.sectionTitle, { color: theme.text }]}>My Products</Text>
-              <TouchableOpacity
-                onPress={() => router.push('/(vendor)/add-product')}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
-              >
-                <Ionicons name="add-circle" size={20} color={theme.primary} />
-                <Text style={{ color: theme.primary, fontWeight: '600' }}>Add New</Text>
-              </TouchableOpacity>
+              <View style={{ flexDirection: 'row', gap: 12 }}>
+                <TouchableOpacity
+                  onPress={() => router.push('/(vendor)/warehouse' as any)}
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
+                >
+                  <Ionicons name="cube-outline" size={20} color={theme.primary} />
+                  <Text style={{ color: theme.primary, fontWeight: '600' }}>Warehouse</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => router.push('/(vendor)/add-product')}
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
+                >
+                  <Ionicons name="add-circle" size={20} color={theme.primary} />
+                  <Text style={{ color: theme.primary, fontWeight: '600' }}>Add New</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </>
         }

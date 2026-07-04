@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { cartService, CartItem, CartResponse } from '../features/cart/services/cartService';
+import { eventBus } from '../utils/eventBus';
 
 interface CartState {
   items: CartItem[];
@@ -16,6 +17,10 @@ interface CartState {
 }
 
 export const useCartStore = create<CartState>((set) => {
+  eventBus.on('order.placed', () => {
+    set({ items: [], subtotal: 0, deliveryFee: 0, total: 0 });
+  });
+
   const handleResponse = (data: CartResponse) => {
     set({
       items: data.items || [],

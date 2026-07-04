@@ -40,10 +40,34 @@ const seed = async () => {
 
     const productMap = {};
     for (const p of data.products) {
+      const batches = [];
+      if (p.name.includes('Milk') || p.name.includes('Tomat') || p.name.includes('Avocad')) {
+        batches.push({
+          batchNumber: `BAT-EXP-${p.name.substring(0, 3).toUpperCase()}-A`,
+          quantity: Math.floor(p.stock / 2),
+          expiryDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+          warehouseZone: 'Zone B (Cold Storage)',
+        });
+        batches.push({
+          batchNumber: `BAT-EXP-${p.name.substring(0, 3).toUpperCase()}-B`,
+          quantity: Math.ceil(p.stock / 2),
+          expiryDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
+          warehouseZone: 'Zone B (Cold Storage)',
+        });
+      } else {
+        batches.push({
+          batchNumber: `BAT-${p.name.substring(0, 3).toUpperCase()}-GEN`,
+          quantity: p.stock,
+          expiryDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000),
+          warehouseZone: 'Zone A (General)',
+        });
+      }
+
       const product = await Product.create({
         ...p,
         category: categoryMap[p.categoryName],
         vendor: vendor._id,
+        batches,
       });
       productMap[product.name] = product._id;
     }

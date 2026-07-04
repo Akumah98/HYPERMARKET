@@ -33,9 +33,14 @@ export default function AdminDashboard() {
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]} edges={['top', 'left', 'right']}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <Text style={{ fontSize: 22, fontWeight: '700', color: theme.text }}>Admin Panel</Text>
-        <TouchableOpacity onPress={handleLogout}>
-          <Ionicons name="log-out-outline" size={24} color={theme.error} />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+          <TouchableOpacity onPress={() => router.push('/(admin)/warehouse' as any)}>
+            <Ionicons name="cube-outline" size={24} color={theme.primary} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleLogout}>
+            <Ionicons name="log-out-outline" size={24} color={theme.error} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {error && <Text style={{ color: theme.error, marginBottom: 12 }}>{error}</Text>}

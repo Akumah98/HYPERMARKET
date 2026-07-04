@@ -57,11 +57,31 @@ const createOrder = async (userId, orderData) => {
     paymentMethod: orderData.paymentMethod,
   });
 
-  // Reduce stock for each product
+  // Reduce stock for each product using FEFO (First Expired, First Out)
   for (const item of cart.items) {
-    await Product.findByIdAndUpdate(item.product._id, {
-      $inc: { stock: -item.quantity },
-    });
+    const product = await Product.findById(item.product._id);
+    if (product) {
+      if (product.batches && product.batches.length > 0) {
+        let qtyToDeduct = item.quantity;
+        // Sort batches by expiry date (FEFO)
+        product.batches.sort((a, b) => new Date(a.expiryDate) - new Date(b.expiryDate));
+        for (const batch of product.batches) {
+          if (qtyToDeduct <= 0) break;
+          if (batch.quantity >= qtyToDeduct) {
+            batch.quantity -= qtyToDeduct;
+            qtyToDeduct = 0;
+          } else {
+            qtyToDeduct -= batch.quantity;
+            batch.quantity = 0;
+          }
+        }
+        product.batches = product.batches.filter((b) => b.quantity > 0);
+        await product.save();
+      } else {
+        product.stock = Math.max(0, product.stock - item.quantity);
+        await product.save();
+      }
+    }
   }
 
   // Clear the cart
