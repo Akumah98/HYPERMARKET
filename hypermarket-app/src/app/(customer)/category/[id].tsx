@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,13 +18,13 @@ export default function CategoryScreen() {
     categoryId,
   });
 
-  const handleProductPress = (prodId: string) => {
+  const handleProductPress = useCallback((prodId: string) => {
     router.push(`/product/${prodId}`);
-  };
+  }, [router]);
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = useCallback((product: Product) => {
     console.log('Add to cart from category screen:', product.name);
-  };
+  }, []);
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>

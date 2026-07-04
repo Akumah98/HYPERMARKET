@@ -15,7 +15,7 @@ interface CartItemProps {
   disabled?: boolean;
 }
 
-export const CartItem = ({
+export const CartItem = React.memo(({
   item,
   onUpdateQuantity,
   onRemove,
@@ -57,4 +57,13 @@ export const CartItem = ({
       </View>
     </View>
   );
-};
+}, (prevProps, nextProps) => {
+  return prevProps.disabled === nextProps.disabled &&
+         prevProps.item._id === nextProps.item._id &&
+         prevProps.item.quantity === nextProps.item.quantity &&
+         prevProps.item.priceSnapshot === nextProps.item.priceSnapshot &&
+         prevProps.item.product?._id === nextProps.item.product?._id &&
+         prevProps.item.product?.price === nextProps.item.product?.price &&
+         prevProps.onUpdateQuantity === nextProps.onUpdateQuantity &&
+         prevProps.onRemove === nextProps.onRemove;
+});

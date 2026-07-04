@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '../../context/ThemeContext';
@@ -40,11 +40,11 @@ export default function HomeScreen() {
     badges: selectedBadges,
   });
 
-  const handleSelectCat = (id: string | null) => setSelectedCats(id ? [id] : []);
-  const handleProductPress = (id: string) => router.push(`/product/${id}`);
-  const handleAddToCart = async (p: Product) => {
+  const handleSelectCat = useCallback((id: string | null) => setSelectedCats(id ? [id] : []), []);
+  const handleProductPress = useCallback((id: string) => router.push(`/product/${id}`), [router]);
+  const handleAddToCart = useCallback(async (p: Product) => {
     try { await addToCart(p._id, 1); } catch (e) { console.error('Cart error:', e); }
-  };
+  }, [addToCart]);
 
   const currentCatId = selectedCats.length === 1 ? selectedCats[0] : null;
 

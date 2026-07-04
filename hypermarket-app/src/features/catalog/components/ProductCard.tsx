@@ -13,7 +13,7 @@ interface ProductCardProps {
   onAddToCart: (product: Product) => void;
 }
 
-export const ProductCard = ({ product, onPress, onAddToCart }: ProductCardProps) => {
+export const ProductCard = React.memo(({ product, onPress, onAddToCart }: ProductCardProps) => {
   const theme = useTheme();
   const styles = getStyles(theme);
 
@@ -69,4 +69,12 @@ export const ProductCard = ({ product, onPress, onAddToCart }: ProductCardProps)
       </View>
     </TouchableOpacity>
   );
-};
+}, (prevProps, nextProps) => {
+  return prevProps.product._id === nextProps.product._id &&
+         prevProps.product.price === nextProps.product.price &&
+         prevProps.product.stock === nextProps.product.stock &&
+         prevProps.product.averageRating === nextProps.product.averageRating &&
+         prevProps.product.reviewCount === nextProps.product.reviewCount &&
+         prevProps.onPress === nextProps.onPress &&
+         prevProps.onAddToCart === nextProps.onAddToCart;
+});

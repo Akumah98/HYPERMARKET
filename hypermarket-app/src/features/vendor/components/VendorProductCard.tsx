@@ -13,7 +13,7 @@ interface VendorProductCardProps {
   onDelete: (id: string, name: string) => void;
 }
 
-export function VendorProductCard({ item, onEdit, onDelete }: VendorProductCardProps) {
+export const VendorProductCard = React.memo(({ item, onEdit, onDelete }: VendorProductCardProps) => {
   const theme = useTheme();
 
   return (
@@ -49,4 +49,12 @@ export function VendorProductCard({ item, onEdit, onDelete }: VendorProductCardP
       </View>
     </View>
   );
-}
+}, (prevProps, nextProps) => {
+  return prevProps.item._id === nextProps.item._id &&
+         prevProps.item.price === nextProps.item.price &&
+         prevProps.item.stock === nextProps.item.stock &&
+         prevProps.item.unit === nextProps.item.unit &&
+         prevProps.item.name === nextProps.item.name &&
+         prevProps.onEdit === nextProps.onEdit &&
+         prevProps.onDelete === nextProps.onDelete;
+});
