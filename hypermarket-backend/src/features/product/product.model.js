@@ -10,7 +10,13 @@ const productSchema = new mongoose.Schema(
     compareAtPrice: { type: Number, default: 0 },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: [true, 'Category is required'] },
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: [true, 'Vendor is required'] },
-    images: { type: [String], default: [] },
+    images: {
+      type: [{
+        url: { type: String, required: true },
+        publicId: { type: String, required: true }
+      }],
+      default: []
+    },
     stock: { type: Number, required: true, min: 0, default: 0 },
     batches: {
       type: [{

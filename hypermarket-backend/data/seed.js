@@ -7,6 +7,7 @@ const Category = require('../src/features/category/category.model');
 const Product = require('../src/features/product/product.model');
 const Review = require('../src/features/review/review.model');
 const data = require('./data.json');
+const uploadSeedImages = require('./uploadSeedImages');
 
 const seed = async () => {
   try {
@@ -38,6 +39,8 @@ const seed = async () => {
     }
     console.log(`Created ${data.categories.length} categories`);
 
+    const imageMap = await uploadSeedImages(data.products);
+
     const productMap = {};
     for (const p of data.products) {
       const batches = [];
@@ -68,6 +71,7 @@ const seed = async () => {
         category: categoryMap[p.categoryName],
         vendor: vendor._id,
         batches,
+        images: imageMap[p.name] || [],
       });
       productMap[product.name] = product._id;
     }

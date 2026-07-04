@@ -32,9 +32,12 @@ const remove = async (req, res, next) => {
 
 const uploadImages = async (req, res, next) => {
   try {
-    const imageUrls = req.files.map((file) => file.path);
+    const images = req.files.map((file) => ({
+      url: file.path,
+      publicId: file.publicId || `img-${Date.now()}`
+    }));
     const product = await writeService.addProductImages(
-      req.params.id, imageUrls, req.user
+      req.params.id, images, req.user
     );
     success(res, product);
   } catch (error) {

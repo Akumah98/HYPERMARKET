@@ -38,7 +38,7 @@ const createOrder = async (userId, orderData) => {
     name: item.product.name,
     price: item.priceSnapshot,
     quantity: item.quantity,
-    image: item.product.images[0] || '',
+    image: item.product.images[0]?.url || '',
   }));
 
   const subtotal = cart.getSubtotal();

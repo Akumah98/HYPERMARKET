@@ -59,6 +59,7 @@ const uploadToImageKit = async (req, res, next) => {
       
       // Map the generated URL to path so the controller's mapping works seamlessly
       file.path = response.url;
+      file.publicId = response.fileId;
       return response;
     });
 
