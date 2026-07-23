@@ -71,7 +71,7 @@ const seed = async () => {
         category: categoryMap[p.categoryName],
         vendor: vendor._id,
         batches,
-        images: imageMap[p.name] || [],
+        images: (imageMap[p.name] && imageMap[p.name].length > 0) ? imageMap[p.name] : (p.images || []),
       });
       productMap[product.name] = product._id;
     }

@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { vendorService, VendorStats } from '../services/vendorService';
 import { Product } from '../../catalog/services/catalogService';
+import { eventBus } from '../../../utils/eventBus';
 
 export function useVendorDashboard() {
   const [stats, setStats] = useState<VendorStats | null>(null);
@@ -50,6 +51,30 @@ export function useVendorDashboard() {
   useEffect(() => {
     loadDashboardData();
   }, [loadDashboardData]);
+
+  useEffect(() => {
+    const unsubStatus = eventBus.on('order.statusChanged', ({ orderId, status, oldStatus }) => {
+      setStats((prev) => {
+        if (!prev) return null;
+
+        let newDeliveredCount = prev.deliveredOrdersCount;
+        if (status === 'delivered' && oldStatus !== 'delivered') {
+          newDeliveredCount += 1;
+        } else if (status !== 'delivered' && oldStatus === 'delivered') {
+          newDeliveredCount = Math.max(0, newDeliveredCount - 1);
+        }
+
+        return {
+          ...prev,
+          deliveredOrdersCount: newDeliveredCount,
+        };
+      });
+    });
+
+    return () => {
+      unsubStatus();
+    };
+  }, []);
 
   return {
     stats,

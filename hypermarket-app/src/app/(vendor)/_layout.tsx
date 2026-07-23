@@ -1,31 +1,13 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../../context/ThemeContext';
-import { moderateScale, verticalScale } from '../../utils/responsive';
+import { useNavigationTabOptions } from '../../hooks/useNavigationTabOptions';
 
 export default function VendorLayout() {
-  const theme = useTheme();
+  const tabOptions = useNavigationTabOptions();
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: theme.primary,
-        tabBarInactiveTintColor: theme.textMuted,
-        tabBarStyle: {
-          backgroundColor: theme.surface,
-          borderTopColor: theme.border,
-          height: verticalScale(60),
-          paddingBottom: verticalScale(8),
-          paddingTop: verticalScale(6),
-        },
-        tabBarLabelStyle: {
-          fontSize: moderateScale(11),
-          fontWeight: '600',
-        },
-      }}
-    >
+    <Tabs screenOptions={tabOptions}>
       <Tabs.Screen
         name="dashboard"
         options={{

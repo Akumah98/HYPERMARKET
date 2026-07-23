@@ -31,11 +31,13 @@ export function useVendorOrders() {
 
   const updateStatus = async (orderId: string, newStatus: string) => {
     try {
+      const oldOrder = orders.find((o) => o._id === orderId);
+      const oldStatus = oldOrder ? oldOrder.status : undefined;
       const updatedOrder = await vendorService.updateOrderStatus(orderId, newStatus);
       setOrders((prev) =>
         prev.map((o) => (o._id === orderId ? { ...o, status: updatedOrder.status } : o))
       );
-      eventBus.emit('order.statusChanged', { orderId, status: updatedOrder.status });
+      eventBus.emit('order.statusChanged', { orderId, status: updatedOrder.status, oldStatus });
     } catch (err: any) {
       throw new Error(err.response?.data?.message || 'Failed to update order status');
     }

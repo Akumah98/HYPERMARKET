@@ -70,11 +70,14 @@ export const ProductCard = React.memo(({ product, onPress, onAddToCart }: Produc
     </TouchableOpacity>
   );
 }, (prevProps, nextProps) => {
+  const prevImg = prevProps.product.images?.[0]?.url;
+  const nextImg = nextProps.product.images?.[0]?.url;
   return prevProps.product._id === nextProps.product._id &&
          prevProps.product.price === nextProps.product.price &&
          prevProps.product.stock === nextProps.product.stock &&
          prevProps.product.averageRating === nextProps.product.averageRating &&
          prevProps.product.reviewCount === nextProps.product.reviewCount &&
+         prevImg === nextImg &&
          prevProps.onPress === nextProps.onPress &&
          prevProps.onAddToCart === nextProps.onAddToCart;
 });

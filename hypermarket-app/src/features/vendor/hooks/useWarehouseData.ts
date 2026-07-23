@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { vendorService } from '../services/vendorService';
 import { Product } from '../../catalog/services/catalogService';
+import { eventBus } from '../../../utils/eventBus';
+import { deductStockFEFO } from '../utils/warehouseUtils';
+import { useWarehouseSimulation } from './useWarehouseSimulation';
 
 export interface BatchItem {
   batchNumber: string;
@@ -15,12 +18,6 @@ export function useWarehouseData(role: 'vendor' | 'admin' = 'vendor') {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // IoT Sensor State
-  const [coldTemp, setColdTemp] = useState(3.8);
-  const [coldHumidity, setColdHumidity] = useState(84.5);
-  const [generalTemp, setGeneralTemp] = useState(23.2);
-  const [generalHumidity, setGeneralHumidity] = useState(52.1);
-
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
@@ -28,7 +25,6 @@ export function useWarehouseData(role: 'vendor' | 'admin' = 'vendor') {
         const data = await vendorService.fetchVendorProducts(1);
         setProducts(data.products || []);
       } else {
-        // Load products list for admin via HTTP fetch
         const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5000/api'}/products?limit=100`);
         const json = await response.json();
         setProducts(json.data?.products || []);
@@ -44,18 +40,30 @@ export function useWarehouseData(role: 'vendor' | 'admin' = 'vendor') {
     loadData();
   }, [loadData]);
 
-  // IoT Sensor Simulation Loop
+  // Subscribe to real-time order placements to deduct stock dynamically
   useEffect(() => {
-    const timer = setInterval(() => {
-      setColdTemp((t) => +(t + (Math.random() * 0.4 - 0.2)).toFixed(1));
-      setColdHumidity((h) => +(h + (Math.random() * 1.0 - 0.5)).toFixed(1));
-      setGeneralTemp((t) => +(t + (Math.random() * 0.2 - 0.1)).toFixed(1));
-      setGeneralHumidity((h) => +(h + (Math.random() * 0.6 - 0.3)).toFixed(1));
-    }, 3000);
-    return () => clearInterval(timer);
+    const unsubPlaced = eventBus.on('order.placed', (newOrder) => {
+      setProducts((prevProducts) => {
+        let updated = false;
+        const newProducts = prevProducts.map((p) => {
+          const orderedItem = newOrder.items.find((item: any) => item.product === p._id);
+          if (!orderedItem) return p;
+          updated = true;
+          return deductStockFEFO(p, orderedItem.quantity);
+        });
+        return updated ? newProducts : prevProducts;
+      });
+    });
+
+    return () => {
+      unsubPlaced();
+    };
   }, []);
 
-  // Compute batches for FEFO sorting
+  // Use simulation hook for IoT sensors
+  const { sensors } = useWarehouseSimulation();
+
+  // Compute batches for FEFO sorting with real database expiry dates
   const allBatches: BatchItem[] = products
     .flatMap((p) =>
       ((p as any).batches || []).map((b: any) => ({
@@ -73,10 +81,7 @@ export function useWarehouseData(role: 'vendor' | 'admin' = 'vendor') {
     products,
     batches: allBatches,
     loading,
-    sensors: {
-      cold: { temp: coldTemp, humidity: coldHumidity, status: coldTemp > 5.0 ? 'Warning' : 'OK' },
-      general: { temp: generalTemp, humidity: generalHumidity, status: 'OK' },
-    },
+    sensors,
     refetch: loadData,
   };
 }
