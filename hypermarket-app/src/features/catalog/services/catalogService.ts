@@ -49,7 +49,7 @@ export const catalogService = {
     return response.data.data;
   },
 
-  getProducts: async (params: FetchProductsParams): Promise<ProductsResponse> => {
+  getProducts: async (params: FetchProductsParams, signal?: AbortSignal): Promise<ProductsResponse> => {
     const { categoryId, categories, badges, ...rest } = params;
     let categoryParam: string | undefined = undefined;
     if (categories && categories.length > 0) {
@@ -65,6 +65,7 @@ export const catalogService = {
         category: categoryParam,
         badges: badgeParam,
       },
+      signal,
     });
     return response.data.data;
   },
